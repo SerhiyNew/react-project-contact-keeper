@@ -69,7 +69,7 @@ router.post(
 
       // any errors ?
     } catch (err) {
-      console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', err.message);
+      console.error('!!!!!!! routes/users.js', err.message);
       res.status(500).send('Server error =( ');
     }
   }
