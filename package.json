@@ -4,10 +4,10 @@
   "description": "Contaxt manager App",
   "main": "server.js",
   "scripts": {
-    "star": "node server.js ",
+    "start": "node server.js ",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "clientinstall":"npm install --prefix client",
+    "clientinstall": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client \""
   },
   "keywords": [],
