@@ -385,19 +385,19 @@ table th {
 }
 
 /* Animation (Add After) */
-.item-enter {
+.fade-enter {
   opacity: 0;
 }
-.item-enter-active {
+.fade-enter-active {
   opacity: 1;
-  transition: opacity 1000ms ease-in;
+  transition: opacity 1000ms ease-in-out;
 }
-.item-exit {
+.fade-exit {
   opacity: 1;
 }
-.item-exit-active {
+.fade-exit-active {
   opacity: 0;
-  transition: opacity 1000ms ease-in;
+  transition: opacity 1000ms ease-in-out;
 }
 
 /* Mobile Styles */
