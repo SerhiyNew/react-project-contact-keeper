@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-
+import axios from 'axios';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import {
@@ -27,13 +27,36 @@ const AuthState = props => {
   // Load user
 
   // Register User
+  const register = async formData => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.post('/api/users', formData, config); // because of proxy-value in client\package.json we no need enter full adress, like '"http://localhost:5000/api/users"'
 
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: err.response.data.msg,
+      });
+    }
+  };
   // login User
-
+  const login = () => {
+    console.log('login');
+  };
   // Logaut
-
+  const logout = () => {
+    console.log('logout');
+  };
   // Clear errors
-
+  const clearError = () => dispatch({ type: CLEAR_ERRORS });
   return (
     <AuthContext.Provider
       value={{
@@ -42,6 +65,10 @@ const AuthState = props => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        register,
+        login,
+        logout,
+        clearError,
       }}
     >
       {props.children}
