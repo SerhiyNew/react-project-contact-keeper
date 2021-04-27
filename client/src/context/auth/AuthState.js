@@ -67,13 +67,31 @@ const AuthState = props => {
     }
   };
   // login User
-  const login = () => {
-    console.log('login');
+
+  const login = async formData => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.post('/api/auth', formData, config); // because of proxy-value in client\package.json we no need enter full adress, like '"http://localhost:5000/api/users"'
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.msg,
+      });
+    }
   };
+
   // Logaut
-  const logout = () => {
-    console.log('logout');
-  };
+  const logout = () => dispatch({ type: LOGOUT });
   // Clear errors
   const clearError = () => dispatch({ type: CLEAR_ERRORS });
   return (
