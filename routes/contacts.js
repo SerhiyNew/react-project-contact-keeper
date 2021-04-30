@@ -55,14 +55,10 @@ router.post(
   }
 );
 
-// @route   PUT api/contacts:id
-// @desc    Update contact
-// @acces   Private
+// @route     PUT api/contacts/:id
+// @desc      Update contact
+// @access    Private
 router.put('/:id', auth, async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty())
-    return res.status(400).json({ errors: errors.array() });
-
   const { name, email, phone, type } = req.body;
 
   // Build contact object
@@ -78,8 +74,9 @@ router.put('/:id', auth, async (req, res) => {
     if (!contact) return res.status(404).json({ msg: 'Contact not found' });
 
     // Make sure user owns contact
-    if (contact.user.toString() !== req.user.id)
+    if (contact.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'Not authorized' });
+    }
 
     contact = await Contact.findByIdAndUpdate(
       req.params.id,
@@ -89,30 +86,31 @@ router.put('/:id', auth, async (req, res) => {
 
     res.json(contact);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    console.error(er.message);
+    res.status(500).send('Server Error');
   }
 });
 
-// @route   DELETE api/contacts:id
-// @desc    Delete contact
-// @acces   Private
+// @route     DELETE api/contacts/:id
+// @desc      Delete contact
+// @access    Private
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const contact = await Contact.findById(req.params.id);
+    let contact = await Contact.findById(req.params.id);
 
     if (!contact) return res.status(404).json({ msg: 'Contact not found' });
 
     // Make sure user owns contact
-    if (contact.user.toString() !== req.user.id)
+    if (contact.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'Not authorized' });
+    }
 
     await Contact.findByIdAndRemove(req.params.id);
 
     res.json({ msg: 'Contact removed' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).send('Server Error');
   }
 });
 
