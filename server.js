@@ -1,27 +1,23 @@
 const express = require('express');
-const connectDB = require('./config/bd');
+const connectDB = require('./config/db');
 const path = require('path');
 
 const app = express();
 
-// Connect DB
+// Connect Database
 connectDB();
 
 // Init Middleware
 app.use(express.json({ extended: false }));
 
-// app.get('/', (req, res) =>
-//   res.json({ msg: 'Welcome to the ContactKeeper API' })
-// );
-
-// define routs
+// Define Routes
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/contacts', require('./routes/contacts'));
 
-// server static assets in prod
-if (process.env.NODE_ENV === 'prodaction') {
-  // Set Static folder
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
   app.use(express.static('client/build'));
 
   app.get('*', (req, res) =>
